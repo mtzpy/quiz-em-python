@@ -1,5 +1,3 @@
-#teste com github
-#arrocha
 import tkinter as tk
 
 janela=tk.Tk()
@@ -18,7 +16,7 @@ texto.pack()
 
 def clicar_botao():
     pagina_inicial.place_forget()
-    quiz.pack()
+    quiz.place(x=0,y=0,relwidth=1,relheight=1)
 botao=tk.Button(pagina_inicial,
             text="começar",
             font=('Arial',30),
@@ -47,6 +45,14 @@ pontos=0
 respostas=["Neymar","Capitão América","Pelé","Silvio Santos"]
 resposta_certa=respostas[2]
 
+botao_proxima=tk.Button(quiz,
+                        text="próxima",
+                        font=('Arial',20),
+                        width=10,
+                        height=2
+)
+botao_proxima.place_forget()
+
 def verificar_acerto(escolhido):
     global pontos
     if escolhido==resposta_certa:
@@ -54,6 +60,8 @@ def verificar_acerto(escolhido):
         pontos = pontos + 1
     else:
         mensagem['text']="errou ai beta"
+
+    botao_proxima.place(relx=0.9,rely=0.9,anchor="center")
 
 area_botoes=tk.Frame(quiz)
 area_botoes.pack()
@@ -73,5 +81,36 @@ botao4.grid(row=1,column=1,padx=50,pady=50)
 mensagem=tk.Label(quiz,text="",font=("Comic Sans MS",40,"bold"))
 mensagem.pack()
 
+respostas2=[4,22,5,67]
+def proxima_pergunta2():
+    global resposta_certa
+    mensagem.config(text="")
+    botao_proxima.place_forget()
+
+    pergunta.config(text='quanto é 2+2?')
+    botao1.config(text=respostas2[0],command=lambda:verificar_acerto(respostas2[0]))
+    botao2.config(text=respostas2[1],command=lambda:verificar_acerto(respostas2[1]))
+    botao3.config(text=respostas2[2],command=lambda:verificar_acerto(respostas2[2]))
+    botao4.config(text=respostas2[3],command=lambda:verificar_acerto(respostas2[3]))
+
+    resposta_certa=respostas2[1]
+
+    botao_proxima.config(command=proxima_pergunta3)
+
+botao_proxima.config(command=proxima_pergunta2)
+
+respostas3=['itadori','saitama','reigen','naruto']
+def proxima_pergunta3():
+    global resposta_certa
+    mensagem.config(text="")
+    botao_proxima.place_forget()
+
+    pergunta.config(text='qual desses exala mais aura?')
+    botao1.config(text=respostas3[0], command=lambda: verificar_acerto(respostas3[0]))
+    botao2.config(text=respostas3[1], command=lambda: verificar_acerto(respostas3[1]))
+    botao3.config(text=respostas3[2], command=lambda: verificar_acerto(respostas3[2]))
+    botao4.config(text=respostas3[3], command=lambda: verificar_acerto(respostas3[3]))
+
+    resposta_certa = respostas3[2]
 
 janela.mainloop()
