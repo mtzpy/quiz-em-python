@@ -111,6 +111,129 @@ def proxima_pergunta3():
     botao3.config(text=respostas3[2], command=lambda: verificar_acerto(respostas3[2]))
     botao4.config(text=respostas3[3], command=lambda: verificar_acerto(respostas3[3]))
 
+    botao_proxima.config(command=proxima_pergunta4)
+
     resposta_certa = respostas3[2]
+
+respostas4=['sukuna','luffy','goku','jotaro']
+def proxima_pergunta4():
+    global resposta_certa
+    mensagem.config(text="")
+    botao_proxima.place_forget()
+
+    pergunta.config(text='qual desses só venceu por puro roteiro?')
+    botao1.config(text=respostas4[0], command=lambda: verificar_acerto(respostas4[0]))
+    botao2.config(text=respostas4[1], command=lambda: verificar_acerto(respostas4[1]))
+    botao3.config(text=respostas4[2], command=lambda: verificar_acerto(respostas4[2]))
+    botao4.config(text=respostas4[3], command=lambda: verificar_acerto(respostas4[3]))
+
+    resposta_certa = respostas4[0]
+    botao_proxima.config(command=proxima_pergunta5)
+
+respostas5=['dio','joseph','kira','zoro']
+def proxima_pergunta5():
+    global resposta_certa
+    mensagem.config(text="")
+    botao_proxima.config(text="finalizar",command=finalizacao)
+    botao_proxima.place_forget()
+
+    pergunta.config(text='qual desses é o melhor de jojo?')
+    botao1.config(text=respostas5[0], command=lambda: verificar_acerto(respostas5[0]))
+    botao2.config(text=respostas5[1], command=lambda: verificar_acerto(respostas5[1]))
+    botao3.config(text=respostas5[2], command=lambda: verificar_acerto(respostas5[2]))
+    botao4.config(text=respostas5[3], command=lambda: verificar_acerto(respostas5[3]))
+
+    resposta_certa = respostas5[3]
+
+def finalizacao():
+    quiz.place_forget()
+    final.place(x=0,y=0,relwidth=1,relheight=1)
+    aura()
+
+
+final=tk.Frame(janela)
+texto=tk.Label(final,text="processando sua aura....0%",font=('Impact',50,),pady=250)
+texto.pack()
+
+itadori=tk.PhotoImage(file="yuji.png")
+itadori=itadori.subsample(2,2)
+label_itadori=tk.Label(final,image=itadori)
+
+aceitavel=tk.PhotoImage(file='ok.png')
+aceitavel=aceitavel.subsample(2,2)
+label_aceitavel=tk.Label(final,image=aceitavel)
+
+from PIL import Image,ImageTk
+
+resenha=Image.open('67.gif')
+frames=[]
+
+for i in range(resenha.n_frames):
+    resenha.seek(i)
+    frame=ImageTk.PhotoImage(resenha.copy())
+    frames.append(frame)
+
+label_gif=tk.Label(final)
+label_gif.pack()
+
+indice=0
+def animar():
+    global indice
+    label_gif.config(image=frames[indice])
+    indice+=1
+    if indice>=len(frames):
+        indice=0
+    final.after(100,animar)
+
+
+progresso=0
+def aura():
+    global progresso
+    texto.config(text=f"processando sua aura....{progresso}%")
+    progresso+=10
+
+    if progresso<=100:
+        final.after(700,aura)
+    else:
+        final.after(500,resultado)
+        texto.config(text="")
+
+
+def resultado():
+    if pontos<=2:
+        label_itadori.place(relx=0.5,rely=0.3,anchor='center')
+        skill=tk.Label(
+            final,
+            text='SKILL ISSUE 💀',
+            font=('Impact',60)
+)
+        skill.place(relx=0.5,rely=0.65,anchor="center")
+
+        pontuacao=tk.Label(final,text=f'{pontos} pontos!',font=('Comic Sans MS',30))
+        pontuacao.place(relx=0.5,rely=0.8,anchor='center')
+
+    elif pontos<=4:
+        label_aceitavel.place(relx=0.5,rely=0.3,anchor="center")
+        ok=tk.Label(final,
+                    text='aurudo em treinamento',
+                    font=('Impact',60)
+        )
+        ok.place(relx=0.5,rely=0.65,anchor='center')
+        pontuacao=tk.Label(final,text=f'{pontos} pontos!',font=('Comic Sans MS',30))
+        pontuacao.place(relx=0.5, rely=0.8, anchor='center')
+
+        quase=tk.Label(final,text='quase gabaritou guerreiro....',font='Arial')
+        quase.place(relx=0.5,rely=0.88,anchor='center')
+
+    else:
+        label_gif.place(relx=0.5,rely=0.3,anchor='center')
+        animar()
+        aura_suprema=tk.Label(final,
+                              text='+67 milhões de aura slk',
+                              font=('Impact',67)
+        )
+        aura_suprema.place(relx=0.5,rely=0.65,anchor='center')
+        pontuacao=tk.Label(final,text=f'{pontos} pontos resenhudos!!!',font=('Comic Sans MS',30))
+        pontuacao.place(relx=0.5,rely=0.8,anchor='center')
 
 janela.mainloop()
